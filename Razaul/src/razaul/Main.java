@@ -113,6 +113,7 @@ public class Main extends JFrame {
                     if (rs.next()) {
                         dispose();
                         UserHomePage ah = new UserHomePage();
+                        ah.setTitle(userName);
                         ah.setVisible(true);
                         contentPane.setVisible(false);
                         JOptionPane.showMessageDialog(btnLogin, "You have successfully logged in");
