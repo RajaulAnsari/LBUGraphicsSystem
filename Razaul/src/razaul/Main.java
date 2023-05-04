@@ -112,9 +112,7 @@ public class Main extends JFrame {
                     ResultSet rs = st.executeQuery();
                     if (rs.next()) {
                         dispose();
-//                        UserHome ah = new UserHome(userName);
-//                        ah.setTitle("Welcome");
-                        GraphicsSystem ah = new GraphicsSystem();
+                        UserHomePage ah = new UserHomePage();
                         ah.setVisible(true);
                         contentPane.setVisible(false);
                         JOptionPane.showMessageDialog(btnLogin, "You have successfully logged in");
