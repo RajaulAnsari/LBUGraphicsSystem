@@ -122,7 +122,7 @@ public class Main extends JFrame {
                     }
                 } catch (SQLException sqlException) {
                     sqlException.printStackTrace();
-                }
+                } 
 			}
 		});
 		

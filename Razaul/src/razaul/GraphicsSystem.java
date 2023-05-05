@@ -25,6 +25,7 @@ public class GraphicsSystem extends LBUGraphics
         }
 		
 		public void about() {
+			super.about();
 			setxPos(130);
 	        setyPos(310);
 	        setStroke(5);

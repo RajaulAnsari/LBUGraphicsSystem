@@ -7,22 +7,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 public class UserHomePage extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
 
 	/**
 	 * Launch the application.
@@ -42,8 +38,12 @@ public class UserHomePage extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param ah 
+	 * @param frame 
+	 * @param frame 
 	 */
 	public UserHomePage() {
+//		this.userName=userName;
 		setResizable(false);
 		setBackground(Color.BLACK);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,24 +101,8 @@ public class UserHomePage extends JFrame {
 		JButton btnDeleteAccount = new JButton("Delete Account");
 		btnDeleteAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserHomePage ah = new UserHomePage();
-				String nps=ah.getTitle();
-                try {
-    				System.out.println("Username is:"+nps);
-                    Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/swing_demo",
-                        "root", "");
-
-                    PreparedStatement st = (PreparedStatement) con
-                        .prepareStatement("DELETE FROM account WHERE user_name='"+nps+"'");
-                    st.executeUpdate();
-                    JOptionPane.showMessageDialog(btnDeleteAccount, "Account has been successfully deleted");
-
-                } catch (SQLException sqlException) {
-                    sqlException.printStackTrace();
-                }
-                dispose();
-				Main main=new Main();
-				main.setVisible(true);
+				ConfrimationForDelete cfd=new ConfrimationForDelete();
+				cfd.setVisible(true);
 			}
 		});
 		
