@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -26,88 +27,186 @@ public class GraphicsSystem extends LBUGraphics
 		
 		public void about() {
 			super.about();
-			setxPos(130);
-	        setyPos(310);
-	        setStroke(5);
-	        turnRight(180);
-	        penDown();
-	        forward(150);
-	        turnRight(90);
-	        forward(50);
-	        turnRight(45);
-	        forward(20);
-	        turnRight(45);
-	        forward(60);
-	        turnRight(90);
-	        forward(30);
-	        turnLeft(110);
-	        forward(85);
-	        
-	        penUp();
-	        turnLeft(70);
-	        forward(30);
-	        penDown();
-	        turnLeft(80);
-	        forward(150);
-	        turnRight(80);
-	        forward(20);
-	        turnRight(80);
-	        forward(150);
-	        
-	        penUp();
-	        turnLeft(80);
-	        forward(25);
-	        turnLeft(90);
-	        forward(50);
-	        turnRight(180);
-	        penDown();
-	        forward(40);
-	        turnLeft(90);
-	        forward(50);
-	        turnLeft();
-	        forward(140);
-	        
-	        penUp();
-	        turnRight(90);
-	        forward(60);
-	        
-	        penDown();
-	        turnLeft(260);
-	        forward(150);
-	        turnLeft(180);
-	        penUp();
-	        forward(150);
-	        turnRight(80);
-	        penDown();
-	        forward(10);
-	        turnRight(80);
-	        forward(150);
-	        
-	        penUp();
-	        turnLeft(90);
-	        forward(35);
-	        penDown();
-	        turnLeft(80);
-	        forward(130);
-	        turnLeft(180);
-	        penUp();
-	        forward(130);
-	        penDown();
-	        turnLeft(90);
-	        forward(55);
-	        turnLeft(90);
-	        forward(130);
-	        
-	        penUp();
-	        turnRight(90);
-	        forward(43);
-	        penDown();
-	        turnRight(90);
-	        forward(130);
-	        turnLeft(90);
-	        forward(50);
-	        reset();
+			
+			//Letter R
+			setxPos(170);
+			setyPos(280);
+			penDown();
+			setPenColour(Color.CYAN);
+			forward(115);
+			penUp();
+			turnRight(180);
+			forward(115);
+			turnRight(90);
+			penDown();
+			forward(70);
+			turnRight(90);
+			forward(55);
+			turnRight(90);
+			forward(50);
+			turnLeft(135);
+			forward(75);
+			turnRight(135);
+			forward(20);
+			turnRight(45);
+			forward(50);
+			turnLeft(136);
+			forward(44);
+			turnRight(90);
+			forward(15);
+			
+			reset();
+			setxPos(190);
+			setyPos(300);
+			penDown();
+			forward(20);
+			turnLeft(90);
+			forward(30);
+			turnLeft(90);
+			forward(20);
+			turnLeft(90);
+			forward(30);
+			
+			//Letter A
+			reset();
+			setxPos(290);
+			setyPos(280);
+			turnRight(20);
+			penDown();
+			setPenColour(Color.BLUE);
+			forward(120);
+			penUp();
+			forward(-120);
+			turnLeft(40);
+			penDown();
+			forward(120);
+			turnRight(110);
+			forward(20);
+			turnRight(70);
+			forward(40);
+			turnLeft(70);
+			forward(12);
+			turnLeft(70);
+			forward(40);
+			turnRight(70);
+			forward(20);
+			
+			reset();
+			setxPos(290);
+			setyPos(320);
+			turnRight(18);
+			penDown();
+			forward(20);
+			turnLeft(105);
+			forward(16);
+			turnLeft(115);
+			forward(20);
+			
+			//Letter J
+			reset();
+			setxPos(400);
+			setyPos(280);
+			penDown();
+			setPenColour(Color.MAGENTA);
+			forward(110);
+			turnRight(90);
+			forward(60);
+			turnRight(90);
+			forward(40);
+			turnRight(90);
+			forward(20);
+			turnRight(90);
+			forward(25);
+			turnLeft(90);
+			forward(20);
+			turnLeft(90);
+			forward(95);
+			turnRight(90);
+			forward(20);
+			
+			//Letter A
+			reset();
+			setxPos(450);
+			setyPos(280);
+			turnRight(20);
+			penDown();
+			setPenColour(Color.green);
+			forward(120);
+			penUp();
+			forward(-120);
+			turnLeft(40);
+			penDown();
+			forward(120);
+			turnRight(110);
+			forward(20);
+			turnRight(70);
+			forward(40);
+			turnLeft(70);
+			forward(12);
+			turnLeft(70);
+			forward(40);
+			turnRight(70);
+			forward(20);
+			
+			reset();
+			setxPos(450);
+			setyPos(320);
+			turnRight(18);
+			penDown();
+			forward(20);
+			turnLeft(105);
+			forward(16);
+			turnLeft(115);
+			forward(20);
+			
+			//Letter U
+			reset();
+			setxPos(560);
+			setyPos(280);
+			penDown();
+			setPenColour(Color.ORANGE);
+			forward(110);
+			turnRight(90);
+			forward(60);
+			turnRight(90);
+			forward(110);
+			turnRight(90);
+			forward(20);
+			turnRight(90);
+			forward(95);
+			turnLeft(90);
+			forward(20);
+			turnLeft(90);
+			forward(95);
+			turnRight(90);
+			forward(20);
+			
+			
+			//Letter L
+			reset();
+			setxPos(570);
+			setyPos(280);
+			penDown();
+			setPenColour(Color.lightGray);
+			forward(110);
+			turnLeft(90);
+			forward(60);
+			turnLeft(90);
+			forward(40);
+			turnLeft(90);
+			forward(20);
+			turnLeft(90);
+			forward(25);
+			turnRight(90);
+			forward(20);
+			turnRight(90);
+			forward(95);
+			turnLeft(90);
+			forward(20);
+			
+			reset();
 		}
+		
 		
 		public void square(int side) {
 			turnRight();
@@ -137,6 +236,9 @@ public class GraphicsSystem extends LBUGraphics
 		}
 		
 		public void triangle(int size1, int size2, int size3) {	
+			int[] sides= {size1,size2,size3};
+			Arrays.sort(sides);
+			if (sides[0]+sides[1]>sides[2]) {
 			penDown();
 			forward(size1);  // move forward by the length of the first side
 		    turnLeft(180 - (int)Math.toDegrees(Math.acos((size1*size1 + size2*size2 - size3*size3) / (2.0*size1*size2)))); // turn left by the angle opposite the second side
@@ -144,6 +246,9 @@ public class GraphicsSystem extends LBUGraphics
 		    turnLeft(180 - (int)Math.toDegrees(Math.acos((size2*size2 + size3*size3 - size1*size1) / (2.0*size2*size3))));  // turn left by the angle opposite the third side
 		    forward(size3);  // move forward by the length of the third side
 		    reset();
+		    return;
+			}
+			System.out.println("Invalid sides");
 		}
 
         public GraphicsSystem()
