@@ -24,10 +24,6 @@ public class GraphicsSystem extends LBUGraphics
         {
                 new GraphicsSystem(); //create instance of class that extends LBUGraphics (could be separate class without main), gets out of static context
         }
-		public void paint() {
-			Extra ex=new Extra();
-			ex.paint(getGraphics());
-		}
 		
 		public void about() {
 			super.about();
@@ -255,6 +251,7 @@ public class GraphicsSystem extends LBUGraphics
 		}
 		
 		private boolean saved=false;
+		private boolean savedimg=false;
 
         public GraphicsSystem()
         {
@@ -280,14 +277,11 @@ public class GraphicsSystem extends LBUGraphics
     		String[] params = command.split(" ");
     		int length=params.length;
     		command = params[0];
-
-    		//Extra
-    		if (command.equalsIgnoreCase("paint") && length==1) {
-    			paint();
-    		}
+    		
+    		String[] contain= {"forward","backward","circle","turnleft","turnright","triangle","square","about","equaltriangle"};
     		
     		//About
-    		else if (command.equalsIgnoreCase("about") && length==1) {
+    		if (command.equalsIgnoreCase("about") && length==1) {
     			about();
     		}
     		
@@ -560,32 +554,42 @@ public class GraphicsSystem extends LBUGraphics
     			}
     		
     		//Image Save
-    		else if (command.equalsIgnoreCase("save") && length ==1) {
-    			JFileChooser fileChooserobj = new JFileChooser();
-    			int result = fileChooserobj.showSaveDialog(null);
-    			if (result == JFileChooser.APPROVE_OPTION) {
-    				File file = fileChooserobj.getSelectedFile();
-    				String fileName = file.getName();
-				    String fileExtension = "";
-				    int i = fileName.lastIndexOf('.');
-				    if (i > 0) {
-				       fileExtension = fileName.substring(i + 1);
-				    }
-				    BufferedImage image = getBufferedImage();
-				    try {
-				       ImageIO.write(image, fileExtension, file);
-				    } catch (IOException e) {
-				       System.out.println(e);
-				    }
-				    }
-               }
-    		else if (command.equalsIgnoreCase("save") && length >1) {
+    		else if (command.equalsIgnoreCase("saveimg") && length ==1) {
+    			for(String j:contain) {
+    				if(List.contains(j)) {
+		    			JFileChooser fileChooserobj = new JFileChooser();
+		    			int result = fileChooserobj.showSaveDialog(null);
+		    			if (result == JFileChooser.APPROVE_OPTION) {
+		    				File file = fileChooserobj.getSelectedFile();
+		    				String fileName = file.getName();
+						    String fileExtension = "";
+						    int i = fileName.lastIndexOf('.');
+						    if (i > 0) {
+						       fileExtension = fileName.substring(i + 1);
+						    }
+						    BufferedImage image = getBufferedImage();
+						    try {
+						       ImageIO.write(image, fileExtension, file);
+						       savedimg=true;
+						    } catch (IOException e) {
+						       System.out.println(e);
+						    }
+						    }
+		    			break;
+    				}
+    				else{
+    					System.out.println("First Draw Something");
+    				}
+    			}
+    		}
+    		else if (command.equalsIgnoreCase("saveimg") && length >1) {
     			System.out.println("Error: This "+params[0]+" command does't takes any arguments");
     		}
     		
     		//Load Image
                
-               else if (command.equalsIgnoreCase("load") && length ==1) {
+               else if (command.equalsIgnoreCase("loadimg") && length ==1) {
+            	   if(savedimg) {
             	   JFileChooser fileChooser = new JFileChooser();
             	   int result = fileChooser.showOpenDialog(null);
             	   if (result == JFileChooser.APPROVE_OPTION) {
@@ -599,7 +603,11 @@ public class GraphicsSystem extends LBUGraphics
                        }
             	   }
                }
-               else if (command.equalsIgnoreCase("load") && length >1) {
+            	   else {
+	       				System.out.println("Error : First save the Image.");
+	       			}
+               }
+               else if (command.equalsIgnoreCase("loadimg") && length >1) {
        			System.out.println("Error: This "+params[0]+" command does't takes any arguments");
        		}
     		
