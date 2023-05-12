@@ -1,6 +1,5 @@
 package razaul;
 
-
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
@@ -10,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,6 +24,10 @@ public class GraphicsSystem extends LBUGraphics
         {
                 new GraphicsSystem(); //create instance of class that extends LBUGraphics (could be separate class without main), gets out of static context
         }
+		public void paint() {
+			Extra ex=new Extra();
+			ex.paint(getGraphics());
+		}
 		
 		public void about() {
 			super.about();
@@ -32,7 +36,7 @@ public class GraphicsSystem extends LBUGraphics
 			setxPos(170);
 			setyPos(280);
 			penDown();
-			setPenColour(Color.CYAN);
+			setPenColour(Color.CYAN);	
 			forward(115);
 			penUp();
 			turnRight(180);
@@ -203,7 +207,6 @@ public class GraphicsSystem extends LBUGraphics
 			forward(95);
 			turnLeft(90);
 			forward(20);
-			
 			reset();
 		}
 		
@@ -250,6 +253,8 @@ public class GraphicsSystem extends LBUGraphics
 			}
 			System.out.println("Invalid sides");
 		}
+		
+		private boolean saved=false;
 
         public GraphicsSystem()
         {
@@ -261,11 +266,13 @@ public class GraphicsSystem extends LBUGraphics
                 setTurtleImage("./src/razaul/cat.png");		//set turtle image
         }
         
+        //All the commands are added in List variable
         ArrayList<String> List=new ArrayList<>();
         public ArrayList<String> hist(String Command){
         	List.add(Command);
         	return List;
         }
+        
         @Override
         public void processCommand(String command)              //this method must be provided because LBUGraphics will call it when it's JTextField is used
         {
@@ -274,8 +281,13 @@ public class GraphicsSystem extends LBUGraphics
     		int length=params.length;
     		command = params[0];
 
+    		//Extra
+    		if (command.equalsIgnoreCase("paint") && length==1) {
+    			paint();
+    		}
+    		
     		//About
-    		if (command.equalsIgnoreCase("about") && length==1) {
+    		else if (command.equalsIgnoreCase("about") && length==1) {
     			about();
     		}
     		
@@ -570,6 +582,7 @@ public class GraphicsSystem extends LBUGraphics
     		else if (command.equalsIgnoreCase("save") && length >1) {
     			System.out.println("Error: This "+params[0]+" command does't takes any arguments");
     		}
+    		
     		//Load Image
                
                else if (command.equalsIgnoreCase("load") && length ==1) {
@@ -591,7 +604,7 @@ public class GraphicsSystem extends LBUGraphics
        		}
     		
     		//save command
-               else if (command.equalsIgnoreCase("savehistory")) {
+               else if (command.equalsIgnoreCase("savehistory") && List.size()>1 && length ==1) {
             	   JFileChooser fileChooserobj = new JFileChooser();
 	       			int result = fileChooserobj.showSaveDialog(null);
 	       			if (result == JFileChooser.APPROVE_OPTION) {
@@ -601,6 +614,7 @@ public class GraphicsSystem extends LBUGraphics
        			        for (String i: hist("")) {
        			        	String a= String.format("%s\n",i);
        			        	fwrite.write(a);
+       			        	saved=true;
        			        }  
        			        fwrite.close();   
        			        System.out.println("Content is successfully executed.");  
@@ -610,10 +624,17 @@ public class GraphicsSystem extends LBUGraphics
        			        }  
        			}
                }
+               else if (command.equalsIgnoreCase("savehistory")&& List.size()==1) {
+            	   System.out.println("Error: Plese give some valid command to the turtle then only call the savehistory.");
+               }
+               else if (command.equalsIgnoreCase("savehistory") && length >1) {
+          			System.out.println("Error: This "+params[0]+" command does't takes any arguments");
+          		}
     		
     		
     		//Load Saved Command
-               else if (command.equalsIgnoreCase("loadhistory")) {
+               else if (command.equalsIgnoreCase("loadhistory") && length ==1) {
+            	   if (saved) {
             	   JFileChooser fileChooserobj = new JFileChooser();
 	       			int result = fileChooserobj.showOpenDialog(null);
 	       			if (result == JFileChooser.APPROVE_OPTION) {
@@ -637,8 +658,15 @@ public class GraphicsSystem extends LBUGraphics
        			        System.out.println("Unexpected error occurred");  
        			        e.printStackTrace();  
        			        }  
+	       			}
        			}
+	               else {
+	      				System.out.println("Error : First save the command.");
+	      			}
                }
+		        else if (command.equalsIgnoreCase("loadhistory") && length >1) {
+		  			System.out.println("Error: This "+params[0]+" command does't takes any arguments");
+		  		}
     		
     		//Else block shows command not found error...
     		else {
