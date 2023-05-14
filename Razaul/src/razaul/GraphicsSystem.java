@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -206,22 +207,24 @@ public class GraphicsSystem extends LBUGraphics
 			reset();
 		}
 		
-		
+		//Method for square
 		public void square(int side) {
 			turnRight();
 			forward(side);
 			penDown();
+			for (int i=1;i<5;i++) {
 			forward(side);
 			turnRight(90);
-			forward(side);
-			turnRight(90);
-			forward(side);
-			turnRight(90);
-			forward(side);
-			turnRight(90);
+			}
 			reset();	
 		}
 		
+		//Method for exit the Graphics system
+		public void exit() {
+			System.exit(1);
+		}
+
+		//Method for Equilateral triangle
 		public void eqlTriangle(int size) {
 			turnRight();
 			forward(90);
@@ -234,10 +237,11 @@ public class GraphicsSystem extends LBUGraphics
 			reset();	
 		}
 		
+		//Method for Triangle having three different sides
 		public void triangle(int size1, int size2, int size3) {	
 			int[] sides= {size1,size2,size3};
-			Arrays.sort(sides);
-			if (sides[0]+sides[1]>sides[2]) {
+			Arrays.sort(sides);		//sorting the sides of triangle for triangle properties
+			if (sides[0]+sides[1]>sides[2]) {		//sum of any two sides of triangle is greater than third sides
 			penDown();
 			forward(size1);  // move forward by the length of the first side
 		    turnLeft(180 - (int)Math.toDegrees(Math.acos((size1*size1 + size2*size2 - size3*size3) / (2.0*size1*size2)))); // turn left by the angle opposite the second side
@@ -247,9 +251,9 @@ public class GraphicsSystem extends LBUGraphics
 		    reset();
 		    return;
 			}
-			System.out.println("Invalid sides");
+			System.out.println("Invalid sides,Remember: The sum of any two sides of triangle is greater than third sides.");
 		}
-		
+		//boolean private variable
 		private boolean saved=false;
 		private boolean savedimg=false;
 
@@ -264,21 +268,22 @@ public class GraphicsSystem extends LBUGraphics
         }
         
         //All the commands are added in List variable
-        ArrayList<String> List=new ArrayList<>();
-        public ArrayList<String> hist(String Command){
-        	List.add(Command);
-        	return List;
+        ArrayList<String> list=new ArrayList<>();
+        public ArrayList<String> history(String Command){
+        	list.add(Command);
+        	return list;
         }
         
         @Override
         public void processCommand(String command)              //this method must be provided because LBUGraphics will call it when it's JTextField is used
         {
-        	hist(command);
+        	history(command);
     		String[] params = command.split(" ");
     		int length=params.length;
     		command = params[0];
     		
-    		String[] contain= {"forward","backward","circle","turnleft","turnright","triangle","square","about","equaltriangle"};
+    		//List that contains drawing methods
+    		List<String> contain= Arrays.asList("forward","backward","circle","turnleft","turnright","triangle","square","about","equaltriangle");
     		
     		//About
     		if (command.equalsIgnoreCase("about") && length==1) {
@@ -452,6 +457,14 @@ public class GraphicsSystem extends LBUGraphics
     			System.out.println("Error: This "+params[0]+" command doesn't take any arguments");
     		}
     		
+    		//exit program
+    		else if (command.equalsIgnoreCase("exit") &&length==1){
+    			exit();
+    			}
+    		else if (command.equalsIgnoreCase("exit") &&length>1) {
+    			System.out.println("Error: This "+params[0]+" command doesn't take any arguments");
+    		}
+    		
     		//Square
     		else if (command.equalsIgnoreCase("square") && length ==1) {
     			System.out.println("Error: You must pass a positive Integer as argument.");
@@ -555,12 +568,17 @@ public class GraphicsSystem extends LBUGraphics
     		
     		//Image Save
     		else if (command.equalsIgnoreCase("saveimg") && length ==1) {
-    			for(String j:contain) {
-    				if(List.contains(j)) {
+    			ArrayList<String> tempList= new ArrayList<>();
+    			for(String j:list) {
+				 String first = j.split(" ")[0];    //Extract first word from each element 
+       				 tempList.add(first);
+       			 }
+    			tempList.removeAll(contain);   //remove all the methods of tempList that matches in contain ArrraysList
+    			if (list.size()!=tempList.size()) {
 		    			JFileChooser fileChooserobj = new JFileChooser();
-		    			int result = fileChooserobj.showSaveDialog(null);
-		    			if (result == JFileChooser.APPROVE_OPTION) {
-		    				File file = fileChooserobj.getSelectedFile();
+		    			int result = fileChooserobj.showSaveDialog(null);    //Show the save dialog
+		    			if (result == JFileChooser.APPROVE_OPTION) {         //checks if the user clicked the "Save" button on the save dialog
+		    				File file = fileChooserobj.getSelectedFile();   
 		    				String fileName = file.getName();
 						    String fileExtension = "";
 						    int i = fileName.lastIndexOf('.');
@@ -569,19 +587,19 @@ public class GraphicsSystem extends LBUGraphics
 						    }
 						    BufferedImage image = getBufferedImage();
 						    try {
-						       ImageIO.write(image, fileExtension, file);
+						       ImageIO.write(image, fileExtension, file);    //write the image to the selected file with the specified file extension
 						       savedimg=true;
+						       System.out.println("Image saved successfully.");
 						    } catch (IOException e) {
 						       System.out.println(e);
-						    }
-						    }
-		    			break;
-    				}
-    				else{
-    					System.out.println("First Draw Something");
-    				}
-    			}
-    		}
+						       }
+						   }
+    					}
+	    				else {
+	    					System.out.println("Please Draw something");
+	    				}
+				}
+    		
     		else if (command.equalsIgnoreCase("saveimg") && length >1) {
     			System.out.println("Error: This "+params[0]+" command does't takes any arguments");
     		}
@@ -597,6 +615,7 @@ public class GraphicsSystem extends LBUGraphics
             		   try {
             			   BufferedImage image = ImageIO.read(file);
             			   setBufferedImage(image);
+            			   System.out.println("Image Loaded successfully.");
             			  }
             		   catch(Exception e) {
             			   System.out.println(e);
@@ -612,15 +631,15 @@ public class GraphicsSystem extends LBUGraphics
        		}
     		
     		//save command
-               else if (command.equalsIgnoreCase("savehistory") && List.size()>1 && length ==1) {
+               else if (command.equalsIgnoreCase("savehistory") && list.size()>1 && length ==1) {
             	   JFileChooser fileChooserobj = new JFileChooser();
 	       			int result = fileChooserobj.showSaveDialog(null);
 	       			if (result == JFileChooser.APPROVE_OPTION) {
 	       				File file = fileChooserobj.getSelectedFile();
        				try {  	
-       			        FileWriter fwrite = new FileWriter(file,true);
-       			        for (String i: hist("")) {
-       			        	String a= String.format("%s\n",i);
+       			        FileWriter fwrite = new FileWriter(file,true);   //write to the selected file with the append option true
+       			        for (String i: history("")) {
+       			        	String a= String.format("%s\n",i);      //string formatting each history to next line
        			        	fwrite.write(a);
        			        	saved=true;
        			        }  
@@ -632,7 +651,7 @@ public class GraphicsSystem extends LBUGraphics
        			        }  
        			}
                }
-               else if (command.equalsIgnoreCase("savehistory")&& List.size()==1) {
+               else if (command.equalsIgnoreCase("savehistory")&& list.size()==1) {
             	   System.out.println("Error: Plese give some valid command to the turtle then only call the savehistory.");
                }
                else if (command.equalsIgnoreCase("savehistory") && length >1) {
@@ -650,8 +669,10 @@ public class GraphicsSystem extends LBUGraphics
        				try {  	
        					String filePath = file.getAbsolutePath();
        					File f1 =new File(filePath);
-       					Scanner dataReader=new Scanner(f1);
-       					while(dataReader.hasNextLine()) {
+       					Scanner dataReader=new Scanner(f1);   //open the selected file for reading
+       					
+//       					If fileData is equal to the string "savehistory", the loop is broken. Otherwise, the processCommand() method is called
+       					while(dataReader.hasNextLine()) {		//reads each line from the file
        						String fileData=dataReader.nextLine();
        						if (fileData.equals("savehistory")) {
        							break;

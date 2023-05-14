@@ -102,14 +102,19 @@ public class Main extends JFrame {
 				String password = passwordField.getText();
                 try {
                     Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/swing_demo",
-                        "root", "");
-
+                        "root", "");			//establishes a database connection with the specified database URL
+                    
+                    //prepared SQL query
                     PreparedStatement st = (PreparedStatement) connection
                         .prepareStatement("Select user_name, password from account where user_name=? and password=?");
-
+                    
+                    //set variable of the parameters
                     st.setString(1, userName);
                     st.setString(2, password);
+                    
+                    //executes the SQL query and stores the result in a ResultSet object
                     ResultSet rs = st.executeQuery();
+                    //checks if the user name exists in the database
                     if (rs.next()) {
                         dispose();
                         UserHomePage ah = new UserHomePage();

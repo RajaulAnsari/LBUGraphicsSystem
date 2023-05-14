@@ -36,14 +36,8 @@ public class UserHomePage extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 * @param ah 
-	 * @param frame 
-	 * @param frame 
-	 */
+	
 	public UserHomePage() {
-//		this.userName=userName;
 		setResizable(false);
 		setBackground(Color.BLACK);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,19 +64,19 @@ public class UserHomePage extends JFrame {
 		Logo.setBounds(12, 0, 200, 353);
 		contentPane.add(Logo);
 		
-		JButton btnNewButton = new JButton("Graphics System");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnGraphicsSystem = new JButton("Graphics System");
+		btnGraphicsSystem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				GraphicsSystem gs=new GraphicsSystem();
 				gs.setVisible(true);
 			}
 		});
-		btnNewButton.setFont(new Font("Nimbus Roman", Font.BOLD, 18));
-		btnNewButton.setBackground(Color.BLACK);
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.setBounds(364, 94, 188, 25);
-		contentPane.add(btnNewButton);
+		btnGraphicsSystem.setFont(new Font("Nimbus Roman", Font.BOLD, 18));
+		btnGraphicsSystem.setBackground(Color.BLACK);
+		btnGraphicsSystem.setForeground(Color.WHITE);
+		btnGraphicsSystem.setBounds(364, 94, 188, 25);
+		contentPane.add(btnGraphicsSystem);
 		
 		JButton btnChangePassword = new JButton("Change Password");
 		btnChangePassword.addActionListener(new ActionListener() {

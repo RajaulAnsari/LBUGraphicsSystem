@@ -16,8 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.Statement;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 
 
@@ -143,38 +144,35 @@ public class CreateNewAccount extends JFrame {
 
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/swing_demo", "root", "");
-
-                    String query = "INSERT INTO account values('" + firstName + "','" + lastName + "','" + userName + "','" +
-                        password + "')";
                     
-					Statement sta = connection.createStatement();
-					int x = sta.executeUpdate(query);
-                    if (x ==0) {
-                        JOptionPane.showMessageDialog(btnSignup, "This is alredy exist.");
+                    //Check the userName given by the user exist or not
+                    PreparedStatement statement = connection.prepareStatement("SELECT * FROM account WHERE user_name=?");
+                    statement.setString(1, userName);
+                    ResultSet resultSet = statement.executeQuery();
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(btnSignup, "This username is alredy exist.");
                     } 
-                    
-                    else if(firstName.length()==0 || lastName.length()==0 || userName.length()==0 || password.length()==0){
-                        JOptionPane.showMessageDialog(btnSignup,
-                            "Please fill all the information.");
-                    }
-                    else if(password.length()<8){
-                        JOptionPane.showMessageDialog(btnSignup,
-                            "Password Must Be Eight Character Length.");
-                    }
                     else{
-//                    	LoginSystem log=new LoginSystem();
-//                    	log.setVisible(true);
-                    	JOptionPane.showMessageDialog(btnSignup,
-                            "Welcome, " + msg + "Your account is sucessfully created.");
+                    	PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO account (first_name, last_name, user_name, password) VALUES (?, ?,? ,?)");
+                        insertStatement.setString(1, firstName);
+                        insertStatement.setString(2, lastName);
+                        insertStatement.setString(3, userName);
+                        insertStatement.setString(4, password);
+                        insertStatement.executeUpdate();
+                        JOptionPane.showMessageDialog(btnSignup,
+                        		"Welcome, " + msg + "Your account is sucessfully created.");
+                        insertStatement.close();
+                        dispose();
+                        Main log =new Main();
+                        log.setVisible(true);
                     }
                     
+                    resultSet.close();
+                    statement.close();
                     connection.close();
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-                Main log =new Main();
-                log.setVisible(true);
-                dispose();
 			}
 		});
 		btnSignup.setFont(new Font("Nimbus Roman", Font.BOLD, 16));
